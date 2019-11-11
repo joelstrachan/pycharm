@@ -22,6 +22,13 @@ def ssh(ip):
     except paramiko.AuthenticationException:
         print("* invalid username or password \n Please check the configuration.")
 
+def current_config():
+    ("""
+                            ***This is the current config***
+                
+    
+    
+    """)
 
 file = input("please enter the file name you want to save this configuration to: ")
 
@@ -152,8 +159,6 @@ file1.write(
     f'/ip pool add name="{dhcp_pool_name}" ranges={dhcp_pool_ip_address_range} comment="{dhcp_pool_comment}" \n')
 
 file1.write(f"/interface l2tp-server server set enable=yes\n")
-
-file1.write(f"/interface l2tp-server server set use-ipsec=yes\n")
 
 file1.write(f"/interface l2tp-server server set ipsec-secret={ipsec_password}\n")
 
