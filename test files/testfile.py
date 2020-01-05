@@ -1,0 +1,1 @@
+print("Error: Check your wordlist path\n")
