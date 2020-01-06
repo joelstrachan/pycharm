@@ -4,8 +4,12 @@ import paramiko
 import time
 
 def settings():
-    router_ip_address = input(please enter the router ip address: )
 
+    router_ip_address = input("please enter the ip address of the router: ")
+    router_username = input(please enter username to access router: )
+    router_password = input(please enter password to access router: )
+
+    print(f"""details entered are as follows""")
 
 def file_create():
 
@@ -36,7 +40,7 @@ def ssh(router_ip_address):
         session = paramiko.SSHClient()
         session.set_missing_host_key_policy(paramiko.AutoAddPolicy)
         session.connect(router_ip_address, username=router_username, password=router_password)
-        selected_cmd_file = open(file, 'r')
+        selected_cmd_file = open(filename, 'r')
         selected_cmd_file.seek(0)
         for each_line in selected_cmd_file.readlines():
             connection = session.exec_command(each_line + '\n')
@@ -47,5 +51,7 @@ def ssh(router_ip_address):
         print("======================Configuration Done======================")
     except paramiko.AuthenticationException:
         print("* invalid username or password \n Please check the configuration.")
+
+settings()
 
 file_create()
