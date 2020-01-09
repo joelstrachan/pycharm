@@ -1,0 +1,5 @@
+/ systemscheduler
+add interval=30d00:00:00 name="Package upgrade" on-event=\
+	"system package update install" policy = \
+	ftp, reboot, read, write, policy, test, password, sniff, sensitive, romon \
+	start - time = 12:00: 00

@@ -1,0 +1,21 @@
+
+
+/system scheduler
+add interval=30d00:00:00 name="Package upgrade" on-event=\
+    "system package update install" policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon \
+     start-time=12:00:00
+
+add interval=31d00:00:00 name="Routerboard Upgrade" on-event="global Var1\r\
+    \n:global Var2\r\
+    \n:set Var1 \"\$[/system package get system version]\"\r\
+    \n:set Var2 \"\$[/system routerboard get current-firmware]\"\r\
+    \n:if (\$Var1>\$Var2) do={/system routerboard upgrade;\r\
+    \n/system reboot;\r\
+    \n}"
+    policy=ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon \
+    start-time=01:00:00
+
+
+
+
