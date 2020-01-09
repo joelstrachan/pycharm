@@ -1,0 +1,26 @@
+#set services
+/ip service
+set telnet disabled=yes
+set ftp disabled=yes
+set www disabled=yes
+set api disabled=yes
+set api-ssl disabled=yes
+set ssh disabled=no
+
+#Allow services rule - ssh
+/ip firewall filter
+add action=accept chain=input comment="AllowSSH" dst-port=22 \
+    in-interface=ether1 protocol=tcp
+
+#move rule to first
+/ip firewall filter
+move [/ip firewall filter find comment=AllowSSH] 1
+
+#Allow services rule - winbox
+/ip firewall filter
+add action=accept chain=input comment="AllowWinbox" dst-port=8291 \
+    in-interface=ether1 protocol=tcp
+
+#move rule to first
+/ip firewall filter
+move [/ip firewall filter find comment=AllowWinbox] 1
