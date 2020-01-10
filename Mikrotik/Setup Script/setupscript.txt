@@ -24,3 +24,38 @@ add action=accept chain=input comment="AllowWinbox" dst-port=8291 \
 #move rule to first
 /ip firewall filter
 move [/ip firewall filter find comment=AllowWinbox] 1
+
+
+#ip cloud
+/ip cloud set ddns-enabled=yes
+/ip cloud set ddns-update-interval=1d00:00:00
+
+#dns settings
+ip dns set allow-remote-requests=yes
+ip dns set servers=1.1.1.1,8.8.8.8
+
+#DNS Filter settings
+add action=accept chain=input comment=AllowDNSFrominternal dst-port=53 \
+    in-interface=bridge protocol=udp
+/ip firewall filter
+move [/ip firewall filter find comment=AllowDNSFrominternal] 1
+
+add action=drop chain=input comment=BlockDNSFromExternal dst-port=53 \
+    in-interface=ether1 protocol=udp
+
+/ip firewall filter
+move [/ip firewall filter find comment=BlockDNSFromExternal] 1
+
+add action=accept chain=output dst-port=53 protocol=udp comment=AllowOutboundDNS
+
+/ip firewall filter
+move [/ip firewall filter find comment=AllowOutboundDNS] 1
+
+#user account setup
+/user add name=admin-tsit password=pleasechangeme group=full comment=TSITadminaccount
+
+/user disable admin
+
+
+
+
