@@ -1,4 +1,5 @@
-#filenameis "testcustomer13-Jan-2020.txt"#filenameis "testcustomer13-Jan-2020.txt"/ip service set telnet disabled=yes
+#testcustomer14-Jan-2020.txt#test
+/ip service set telnet disabled=yes
 /ip service set ftp disabled=yes
 /ip service set www disabled=yes
 /ip service set api disabled=yes

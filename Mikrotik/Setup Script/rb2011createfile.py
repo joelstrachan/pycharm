@@ -1,31 +1,44 @@
-import datetime
-import random
-import string
 
-def createfile():
+
+filename1 = 123
+
+def createfile(filename1):
+    import datetime
+
 
     customername = 'testcustomer'
 
-    date= datetime.datetime.now()
+    date = datetime.datetime.now()
 
     timestampStr = date.strftime("%d-%b-%Y")#(%H:%M:%S.%f)
 
     #print('Current Timestamp : ', timestampStr)
 
-    filename = customername + timestampStr + '.txt'
+    filename1 = customername + timestampStr + '.txt'
 
-    print(f"file name is {filename}")
+    #print(f"file name is {filename}")
 
     #filename = filename.replace(" ","")
 
-    #print(f"{filename}")
+    print(f"{filename1}")
 
-    file1 = open(filename, 'a')
-    file1.write(f'#filenameis "{filename}"')
+    file1 = open(filename1, 'a')
+    #file1.write(f'#{filename1}')
+    #file1.write(f'#test')
     file1.close()
 
-    return filename
+    return filename1
 
-x = createfile()
+#filename =
+filename = createfile(filename1)
+
+file1 = open(filename, 'a')
+file1.write(f'#{filename}')
+file1.write(f'#test')
+file1.close()
+
+
+
+
 
 

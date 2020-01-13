@@ -89,6 +89,7 @@ def write_to_file(filename,telnet,ftp,www,api,apissl,ssh,winbox,wwwssl):
 
         file1 = open(file, 'a')
 
+        file1.write(f'\n')
         file1.write(f'/ip service set telnet disabled={telnet}\n')
         file1.write(f'/ip service set ftp disabled={ftp}\n')
         file1.write(f'/ip service set www disabled={www}\n')
