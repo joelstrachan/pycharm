@@ -56,6 +56,20 @@ move [/ip firewall filter find comment=AllowOutboundDNS] 1
 
 /user disable admin
 
+#set identity
+/system identity set name=NorthStarPower4G
+
+#set timezone
+/system clock set time-zone-name=Australia/Sydney
+
+#setup NTP client
+/system ntp client set enabled=yes primary-ntp=129.250.35.251
+
+
+
+
+
+
 
 
 
