@@ -65,6 +65,11 @@ move [/ip firewall filter find comment=AllowOutboundDNS] 1
 #setup NTP client
 /system ntp client set enabled=yes primary-ntp=129.250.35.251
 
+#setup lan and wan graphs
+tool graphing interface add interface=bridge
+tool graphing interface add interface=ether1
+tool graphing resource add
+
 
 
 
