@@ -1,0 +1,36 @@
+#testcustomer14-Jan-2020.txt#test
+/ip service set telnet disabled=yes
+/ip service set ftp disabled=yes
+/ip service set www disabled=yes
+/ip service set api disabled=yes
+/ip service set api-ssl disabled=yes
+/ip service set ssh disabled=no
+/ip service set winbox disabled=no
+/ip service set www-ssl disabled=yes
+#testcustomer14-Jan-2020.txt#test
+/ip service set telnet disabled=yes
+/ip service set ftp disabled=yes
+/ip service set www disabled=yes
+/ip service set api disabled=yes
+/ip service set api-ssl disabled=yes
+/ip service set ssh disabled=no
+/ip service set winbox disabled=no
+/ip service set www-ssl disabled=yes
+#testcustomer14-Jan-2020.txt#test
+/ip service set telnet disabled=yes
+/ip service set ftp disabled=yes
+/ip service set www disabled=yes
+/ip service set api disabled=yes
+/ip service set api-ssl disabled=yes
+/ip service set ssh disabled=no
+/ip service set winbox disabled=no
+/ip service set www-ssl disabled=yes
+#testcustomer14-Jan-2020.txt#test#testcustomer14-Jan-2020.txt#test#testcustomer14-Jan-2020.txt#test
+/ip service set telnet disabled=yes
+/ip service set ftp disabled=yes
+/ip service set www disabled=yes
+/ip service set api disabled=yes
+/ip service set api-ssl disabled=yes
+/ip service set ssh disabled=no
+/ip service set winbox disabled=no
+/ip service set www-ssl disabled=yes
