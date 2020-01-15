@@ -1,0 +1,49 @@
+#### Modify these values to match your requirements ####
+
+#Your email address to receive the backups
+:local toemail "support@totalsolutionsit.com"
+
+#The From address (you can use your own address if you want)
+:local fromemail "MikrotikBackup"
+
+#A mail server your machines can send through
+:local emailserver "smtp.dodo.com.au"
+
+############## Don’t edit below this line ##############
+
+:local textfilename
+:local backupfilename
+:local allfiles
+:local filedate
+:local date [/system clock get date];
+:local time [/system clock get time];
+:local sysname [/system identity get name];
+
+:local months ("jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec");
+:local varMonth [:pick $date 0 3];
+:set varMonth ([ :find $months $varMonth -1 ] + 1);
+
+:if ($varMonth < 10) do={ :set varMonth ("0" . $varMonth); }
+
+:local varDay [:pick $date 4 6];
+:local varYear [:pick $date 7 11];
+:set filedate ($varYear."-".$varMonth."-".$varDay);
+
+
+:set textfilename ($"filedate" . "-" . $"sysname" . ".rsc")
+:set backupfilename ($"filedate" . "-" . $"sysname" . ".backup")
+:set allfiles ($"textfilename" . "," . $"backupfilename")
+:execute [/export file=$"textfilename"]
+:execute [/system backup save name=$"backupfilename"]
+#Allow time for export to complete
+:delay 2s
+
+#email copies
+:log info "Emailing backups"
+/tool e-mail send to=$"toemail" from=$"fromemail" server=[:resolve $emailserver] port=587 subject="[Config Backup] $sysname" file=$"allfiles"
+#Allow time to send
+:delay 10s
+
+#delete copies
+/file remove $textfilename
+/file remove $backupfilename
