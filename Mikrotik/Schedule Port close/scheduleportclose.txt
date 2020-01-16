@@ -1,0 +1,35 @@
+/ip firewall nat remove [/ip firewall nat find dst-address=10.20.20.24]
+
+
+/ip firewall nat add action=dst-nat chain=dstnat comment="Avaya Manager" dst-port=50800-50812 \
+    in-interface=ether1 protocol=tcp to-addresses=192.168.1.42 to-ports=50800-50812
+
+
+
+ip firewall nat enable [/ip firewall nat find comment="Avaya Manager"]
+ip firewall nat disable [/ip firewall nat find comment="Avaya Manager"]
+
+
+:local avayamgtexist =
+
+:if([/ip firewall nat find comment="Avaya Manager"])=0 do={/ip firewall nat add action=dst-nat chain=dstnat comment="Avaya Manager" dst-port=50800-50812 \
+    in-interface=ether1 protocol=tcp to-addresses=192.168.1.42 to-ports=50800-50812} else={ip firewall nat enable [/ip firewall nat find comment="Avaya Manager"]} <expression>
+
+
+:local avayaruletest =
+
+:if([/ip firewall nat find comment="Avaya Manager"])=0 do={$avayaruletest = doesnotexist} else={ip firewall nat enable [/ip firewall nat find comment="Avaya Manager"]} <expression>
+
+
+
+
+
+
+if script with comment="Avaya Manager" exist = false
+    create firewall rule
+
+else
+    enable firewall rule with comment="Avaya Manager"
+
+
+
