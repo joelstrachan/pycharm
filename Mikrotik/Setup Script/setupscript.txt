@@ -61,14 +61,18 @@ move [/ip firewall filter find comment=AllowOutboundDNS] 1
 
 #set timezone
 /system clock set time-zone-name=Australia/Sydney
+/system clock set time-zone-autodetect=yes
 
 #setup NTP client
 /system ntp client set enabled=yes primary-ntp=129.250.35.251
+/system ntp client set secondary-ntp=128.138.141.172
+
+
 
 #setup lan and wan graphs
-tool graphing interface add interface=bridge
-tool graphing interface add interface=ether1
-tool graphing resource add
+/tool graphing interface add interface=bridge
+/tool graphing interface add interface=ether1
+/tool graphing resource add
 
 
 

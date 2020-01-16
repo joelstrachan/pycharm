@@ -1,6 +1,6 @@
 
 /tool e-mail
-set address=203.36.137.241 from=router@northstarpower.com.au
+set address=203.36.137.241 from=router@amaroo.org.au
 
 
 
@@ -10,10 +10,10 @@ set address=203.36.137.241 from=router@northstarpower.com.au
 :local toemail "support@totalsolutionsit.com"
 
 #The From address (you can use your own address if you want)
-:local fromemail "router@northstarpower.com.au"
+:local fromemail "router@amaroo.org.au"
 
 #A mail server your machines can send through
-:local emailserver "203.36.137.241"
+:local emailserver "smtp.telstrabusiness.com"
 
 ############## Don’t edit below this line ##############
 
@@ -42,7 +42,7 @@ set address=203.36.137.241 from=router@northstarpower.com.au
 :execute [/export file=$"textfilename"]
 :execute [/system backup save name=$"backupfilename"]
 #Allow time for export to complete
-:delay 2s
+:delay 10s
 
 #email copies
 :log info "Emailing backups"
@@ -54,6 +54,12 @@ set address=203.36.137.241 from=router@northstarpower.com.au
 /file remove $textfilename
 /file remove $backupfilename
 
+############################################## - Terminal script below
+
+
+/tool e-mail
+set address=203.36.137.241 from=router@amaroo.org.au
+
 /system script
 add dont-require-permissions=no name=weeklybackup owner=admin-tsit policy=\
     ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source="###\
@@ -63,10 +69,10 @@ add dont-require-permissions=no name=weeklybackup owner=admin-tsit policy=\
     \n:local toemail \"support@totalsolutionsit.com\"\r\
     \n\r\
     \n#The From address (you can use your own address if you want)\r\
-    \n:local fromemail \"router@northstarpower.com.au\"\r\
+    \n:local fromemail \"router@amaroo.org.au\"\r\
     \n\r\
     \n#A mail server your machines can send through\r\
-    \n:local emailserver \"203.36.137.241\"\r\
+    \n:local emailserver \"smtp.telstrabusiness.com\"\r\
     \n\r\
     \n############## Don\92t edit below this line ##############\r\
     \n\r\
@@ -110,3 +116,11 @@ add dont-require-permissions=no name=weeklybackup owner=admin-tsit policy=\
     \n#delete copies\r\
     \n/file remove \$textfilename\r\
     \n/file remove \$backupfilename"
+
+/system scheduler
+add comment="Email weekly backup to support@totalsolutionsit.com" interval=1w name="weekly backup" on-event=weeklybackup policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon start-date=jan/16/2020 start-time=00:00:00
+
+
+
+
