@@ -126,3 +126,4 @@ add comment="Email weekly backup to support@totalsolutionsit.com" interval=1w na
 
 ################## - Trigger Backup script
 
+/system script run weeklybackup
