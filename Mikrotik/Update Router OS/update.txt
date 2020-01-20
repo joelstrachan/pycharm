@@ -45,12 +45,15 @@ add interval=7d name="TSIT Firmware Upgrade" on-event=\
     ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon \
     start-date=jan/15/2020 start-time=2:27:30
 
-#update commands
-/system script run script-tsit-update-firmware
-/system script run script-tsit-update-routeros
-
+##Check Commands
 checkfirmware
 /system routerboard print
 
 check pachage version
 /system package print
+
+#update commands
+/system script run script-tsit-update-firmware
+/system script run script-tsit-update-routeros
+
+
