@@ -46,14 +46,17 @@ add interval=7d name="TSIT Firmware Upgrade" on-event=\
     start-date=jan/15/2020 start-time=2:27:30
 
 ##Check Commands
-checkfirmware
+#checkfirmware
 /system routerboard print
 
-check pachage version
+#check pachage version
 /system package print
 
 #update commands
+#update firmware
 /system script run script-tsit-update-firmware
+
+#update routeros
 /system script run script-tsit-update-routeros
 
 
