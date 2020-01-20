@@ -1,0 +1,39 @@
+
+#mangle rules
+
+
+/ip firewall mangle
+add action=mark-connection chain=forward comment=client_dw_con in-interface=\
+    ether1 new-connection-mark=client_dw_con passthrough=yes
+add action=mark-packet chain=forward comment=client-dw-pk connection-mark=\
+    client_dw_con new-packet-mark=client-dw-pk passthrough=yes
+add action=mark-connection chain=prerouting comment=client-up-con \
+    in-interface=bridge new-connection-mark=client-up-con passthrough=yes
+add action=mark-packet chain=prerouting comment=client-up-pk connection-mark=\
+    client-up-con new-packet-mark=client-up-pk passthrough=yes
+add action=mark-packet chain=forward comment=http-dw-pk new-packet-mark=\
+    http-dw-pk packet-mark=client-dw-pk passthrough=no port=80,443 protocol=\
+    tcp
+add action=mark-packet chain=forward comment=http-up-pk new-packet-mark=\
+    http-up-pk packet-mark=client-up-pk passthrough=no port=80,443 protocol=\
+    tcp
+add action=mark-packet chain=forward comment=other-dw-pk new-packet-mark=\
+    other-dw-pk packet-mark=client-dw-pk passthrough=no
+add action=mark-packet chain=forward comment=other-up-pk new-packet-mark=\
+    other-up-pk packet-mark=client-up-pk passthrough=no
+
+
+
+/queue tree
+add max-limit=10M name="All Bandwidth" parent=global priority=1
+add max-limit=10M name=Download packet-mark=client-dw-pk parent=\
+    "All Bandwidth" priority=2
+add max-limit=5M name=http-dw packet-mark=http-dw-pk parent=Download \
+    priority=1 queue=pcq-download-default
+add max-limit=5M name=other-dw packet-mark=other-dw-pk parent=Download \
+    priority=6 queue=pcq-download-default
+add max-limit=1M name=Upload parent="All Bandwidth"
+add max-limit=1M name=http-up packet-mark=http-up-pk parent=Upload priority=1 \
+    queue=pcq-upload-default
+add max-limit=512k name=other-up packet-mark=other-up-pk parent=Upload \
+    priority=6 queue=pcq-upload-default
