@@ -35,16 +35,12 @@ ip dns set allow-remote-requests=yes
 ip dns set servers=1.1.1.1,8.8.8.8
 
 #DNS Filter settings
-add action=accept chain=input comment=AllowDNSFrominternal dst-port=53 \
-    in-interface=bridge protocol=udp
-/ip firewall filter
-move [/ip firewall filter find comment=AllowDNSFrominternal] 1
+/ip firewall filter add action=accept chain=input comment=AllowDNSFrominternal dst-port=53 in-interface=bridge protocol=udp
+/ip firewall filter move [/ip firewall filter find comment=AllowDNSFrominternal] 1
 
-add action=drop chain=input comment=BlockDNSFromExternal dst-port=53 \
-    in-interface=ether1 protocol=udp
+/ip firewall filter add action=drop chain=input comment=BlockDNSFromExternal dst-port=53 in-interface=ether1 protocol=udp
 
-/ip firewall filter
-move [/ip firewall filter find comment=BlockDNSFromExternal] 1
+/ip firewall filter move [/ip firewall filter find comment=BlockDNSFromExternal] 1
 
 add action=accept chain=output dst-port=53 protocol=udp comment=AllowOutboundDNS
 
