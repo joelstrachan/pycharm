@@ -16,13 +16,16 @@ add interval=31d00:00:00 name="TSIT Routerboard Upgrade" on-event="global Var1\r
     policy=ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon \
     start-time=01:00:00
 
+/system script remove script-tsit-update-routeros
+
 ### - Dont Use
 
 /system script
 add comment=script-tsit-update-routeros dont-require-permissions=no name=\
     script-tsit-update-routeros owner=admin-tsit policy=\
-    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source=\
-    "system package update install"
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source="/\
+    system package update check-for-updates\r\
+    \n/system package update install"
 add comment=script-tsit-update-firmware dont-require-permissions=no name=\
     script-tsit-update-firmware owner=admin-tsit policy=\
     ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source="glo\
@@ -55,6 +58,9 @@ add interval=7d name="TSIT Firmware Upgrade" on-event=\
 #update commands
 #update firmware
 /system script run script-tsit-update-firmware
+
+#check for updates
+/system package update check-for-updates
 
 #update routeros
 /system script run script-tsit-update-routeros
