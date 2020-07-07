@@ -1,24 +1,23 @@
 /system script
-add dont-require-permissions=no name=FW-UP-DL owner=admin-tsit policy=\
-    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source="/\
-    tool fetch url= https://internal.totalsolutionsit.com/script/mikrotik/firm\
-    wareupdate.rsc  mode=https keep-result=yes dst-path=firmwareupdate.rsc\r\
-    \n:delay 30\r\
-    \nimport firmwareupdate.rsc\r\
-    \n:delay 30\r\
-    \nsystem script run script-tsit-update-firmware\r\
-    \n:delay 30\r\
-    \nfile remove firmwareupdate.rsc\r\
-    \n:delay 5\r\
-    \nsystem script remove script-tsit-update-firmware\r\
-    \n"
-
-
-
+add comment="Master Router OS Script" dont-require-permissions=no name=\
+    routeros-update-master owner=admin-tsit policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source="t\
+    ool fetch url=https://raw.githubusercontent.com/joelstrachan/pycharm-proje\
+    cts/master/Mikrotik/clients/baxter/routerosupdate.rsc mode=https keep-resu\
+    lt=yes dst-path=routerosupdate.rsc\r\
+    \ndelay 5\r\
+    \nimport routerosupdate.rsc\r\
+    \ndelay 5\r\
+    \nsystem script run script-tsit-update-routeros\r\
+    \ndelay 30\r\
+    \nfile remove routerosupdate.rsc\r\
+    \ndelay 5\r\
+    \nsystem script remove script-tsit-update-routeros"
 
 /system scheduler
-add comment="Weekly firmware update schedule" interval=1w name=TSIT-Master-FW-UP on-event=\
-    FW-UP-DL policy=\
+add name=routerosupdate-remove-onstartup on-event="delay 5\r\
+    \nfile remove routerosupdate.rsc\r\
+    \ndelay 5\r\
+    \nsystem script remove script-tsit-update-routeros" policy=\
     ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon \
-    start-date=apr/12/2020 start-time=04:53:40
-	
+    start-time=startup
