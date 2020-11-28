@@ -120,7 +120,7 @@ add dont-require-permissions=no name=script-tsit-weeklybackup owner=admin-tsit p
     \n/file remove \$backupfilename"
 
 /system scheduler
-add comment="Email weekly backup to support@totalsolutionsit.com" interval=1w name="weekly backup" on-event=script-tsit-weeklybackup policy=\
+add comment="Email weekly backup to support@totalsolutionsit.com" interval=1w name="TSIT-weekly backup" on-event=script-tsit-weeklybackup policy=\
     ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon start-date=jan/16/2020 start-time=00:00:00
 
 
