@@ -1,0 +1,17 @@
+#check router OS Version
+/system package print
+
+#list All scripts
+/system script print
+
+#remove all scripts
+/system  script remove numbers=0
+/system  script remove numbers=1
+/system  script remove numbers=2
+/system  script remove numbers=3
+
+#manually run router os update
+/system script run MASTER--DailyRouterOSUpdate
+
+#manually run router os update
+/system script run script-tsit-update-routeros
