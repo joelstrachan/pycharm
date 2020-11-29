@@ -13,7 +13,7 @@ add comment="TSIT SCRIPT" dont-require-permissions=no name=TSIT-WeeklyBackup \
     \n:global fromemail \"\$thisBox@\$domainname\"\r\
     \n\r\
     \n#A mail server your machines can send through\r\
-    \n:local emailserver \"mail.internode.on.net\"\r\
+    \n:local emailserver \"mail.changeme.com\"\r\
     \n\r\
     \n############## Don\92t edit below this line ##############\r\
     \n\r\
