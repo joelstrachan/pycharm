@@ -1,7 +1,6 @@
 
 /system script
-add comment="Script for running weekly firmware update" \
-    dont-require-permissions=no name=TSIT-WeeklyFirmWareUpdate owner=\
+add comment="TSIT SCRIPT" dont-require-permissions=no name=TSIT-FM-UD owner=\
     admin-tsit policy=\
     ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source="/\
     tool fetch url=\"http://totalsolutionsit.com/mikrotik/firmwareupdate.rsc\"\
@@ -15,9 +14,7 @@ add comment="Script for running weekly firmware update" \
     \n:delay 5\r\
     \n/file remove firmwareupdate.rsc"
 
-
-add comment="Script for running daily routeros update" \
-    dont-require-permissions=no name=TSIT-DailyRouterOSUpdate owner=\
+add comment="TSIT SCRIPT" dont-require-permissions=no name=TSIT-ROS-UP owner=\
     admin-tsit policy=\
     ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source="/\
     tool fetch url=\"http://totalsolutionsit.com/mikrotik/routerosupdate.rsc\"\
@@ -32,21 +29,30 @@ add comment="Script for running daily routeros update" \
     \n/file remove routerosupdate.rsc\r\
     \n"
 
-/system scheduler
-add name=onstartupcleanup on-event=":delay 5\r\
+add comment="TSIT SCRIPT" dont-require-permissions=no name=TSIT-ROS-CU owner=\
+    admin-tsit policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source=":\
+    delay 5\r\
     \n/file remove routerosupdate.rsc\r\
     \n/system script remove script-tsit-update-routeros\r\
     \n:delay 5\r\
     \n/file remove firmwareupdate.rsc\r\
-    \n/system script remove script-tsit-update-firmware" policy=\
-    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon \
-    start-time=startup
-add interval=1d name=TSIT-DailyRouterOSUpdate on-event=\
-    "/system script run TSIT-DailyRouterOSUpdate" policy=\
+    \n/system script remove script-tsit-update-firmware"
+
+
+/system scheduler
+add comment="TSIT SCRIPT" interval=1d name=TSIT-ROS-UP on-event=\
+    "/system script run TSIT-ROS-UP" policy=\
     ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon \
     start-date=nov/28/2020 start-time=01:00:00
-add interval=1w name=WeeklyFirmwareUpdate on-event=\
-    "/system script run MASTER-TSIT-WeeklyFirmWareUpdate\r\
+
+add comment="TSIT SCRIPT" interval=1w name=TSIT-FM-UD on-event=\
+    "/system script run TSIT-FM-UD\r\
     \n" policy=\
     ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon \
     start-date=nov/28/2020 start-time=02:00:00
+
+add comment="TSIT SCRIPT" name=TSIT-ROS-CU on-event=\
+    "/system script run TSIT-ROS-CU" policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon \
+    start-time=startup
