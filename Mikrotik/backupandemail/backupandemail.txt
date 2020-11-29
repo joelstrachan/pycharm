@@ -62,19 +62,23 @@ set address=203.36.137.241 from=router@amaroo.org.au
 /tool e-mail
 set address=203.36.137.241 from=alburyapt.nexus@nexus.com.au
 
+
 /system script
-add dont-require-permissions=no name=TSIT-script-weeklybackup owner=admin-tsit policy=\
-    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source="###\
-    # Modify these values to match your requirements ####\r\
+add comment="TSIT SCRIPT" dont-require-permissions=no name=TSIT-WeeklyBackup \
+    owner=admin-tsit policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source="#\
+    ### Modify these values to match your requirements ####\r\
     \n\r\
     \n#Your email address to receive the backups\r\
     \n:local toemail \"support@totalsolutionsit.com\"\r\
     \n\r\
     \n#The From address (you can use your own address if you want)\r\
-    \n:local fromemail \"alburyapt.nexus@nexus.com.au\"\r\
+    \n:global thisBox [/system identity get name]\r\
+    \n:global domainname \"changeme.com.au\"\r\
+    \n:global fromemail \"\$thisBox@\$domainname\"\r\
     \n\r\
     \n#A mail server your machines can send through\r\
-    \n:local emailserver \"smtp.telstrabusiness.com\"\r\
+    \n:local emailserver \"mail.internode.on.net\"\r\
     \n\r\
     \n############## Don\92t edit below this line ##############\r\
     \n\r\
@@ -86,8 +90,8 @@ add dont-require-permissions=no name=TSIT-script-weeklybackup owner=admin-tsit p
     \n:local time [/system clock get time];\r\
     \n:local sysname [/system identity get name];\r\
     \n\r\
-    \n:local months (\"jan\",\"feb\",\"mar\",\"apr\",\"may\",\"jun\",\"jul\",\"a\
-    ug\",\"sep\",\"oct\",\"nov\",\"dec\");\r\
+    \n:local months (\"jan\",\"feb\",\"mar\",\"apr\",\"may\",\"jun\",\"jul\",\
+    \"aug\",\"sep\",\"oct\",\"nov\",\"dec\");\r\
     \n:local varMonth [:pick \$date 0 3];\r\
     \n:set varMonth ([ :find \$months \$varMonth -1 ] + 1);\r\
     \n\r\
@@ -99,8 +103,8 @@ add dont-require-permissions=no name=TSIT-script-weeklybackup owner=admin-tsit p
     \n\r\
     \n\r\
     \n:set textfilename (\$\"filedate\" . \"-\" . \$\"sysname\" . \".rsc\")\r\
-    \n:set backupfilename (\$\"filedate\" . \"-\" . \$\"sysname\" . \".backup\")\
-    \r\
+    \n:set backupfilename (\$\"filedate\" . \"-\" . \$\"sysname\" . \".backup\
+    \")\r\
     \n:set allfiles (\$\"textfilename\" . \",\" . \$\"backupfilename\")\r\
     \n:execute [/export file=\$\"textfilename\"]\r\
     \n:execute [/system backup save name=\$\"backupfilename\"]\r\
@@ -109,9 +113,9 @@ add dont-require-permissions=no name=TSIT-script-weeklybackup owner=admin-tsit p
     \n\r\
     \n#email copies\r\
     \n:log info \"Emailing backups\"\r\
-    \n/tool e-mail send to=\$\"toemail\" from=\$\"fromemail\" server=[:resolve \
-    \$emailserver] port=25 subject=\"[Config Backup] \$sysname\" file=\$\"allfil\
-    es\"\r\
+    \n/tool e-mail send to=\$\"toemail\" from=\$\"fromemail\" server=[:resolve\
+    \_\$emailserver] port=25 subject=\"[Config Backup] \$sysname\" file=\$\"al\
+    lfiles\"\r\
     \n#Allow time to send\r\
     \n:delay 10s\r\
     \n\r\
@@ -120,8 +124,12 @@ add dont-require-permissions=no name=TSIT-script-weeklybackup owner=admin-tsit p
     \n/file remove \$backupfilename"
 
 /system scheduler
-add comment="Email weekly backup to support@totalsolutionsit.com" interval=1w name="TSIT-weekly backup" on-event=script-tsit-weeklybackup policy=\
-    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon start-date=jan/16/2020 start-time=00:00:00
+add comment="TSIT SCRIPT" interval=1w name=TSIT-CFG-BK on-event=\
+    "/system script run TSIT-WeeklyBackup" policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon \
+    start-date=jan/16/2020 start-time=00:00:00
+
+
 
 
 ################## - Trigger Backup script
