@@ -1,8 +1,8 @@
-def print_hi(name):
-    print (f'HI, {name}')
+import requests
+from requests.auth import HTTPBasicAuth
 
 
 
-if __name__ == '__main__'
-    print_hi(PyCharm)
+response = requests.get('https://192.168.2.1/rest/interface', auth=HTTPBasicAuth('api','mysecretsauce123'), verify=False)
+print(response.json())
 
